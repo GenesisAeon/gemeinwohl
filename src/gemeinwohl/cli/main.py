@@ -172,8 +172,7 @@ def _render_compact(score: object) -> None:
         return
     colour = _score_colour(score.value)
     console.print(
-        f"\nGemeinwohl Score: [{colour}]{score.value:.4f}[/{colour}]"
-        f"  - {score.interpretation}"
+        f"\nGemeinwohl Score: [{colour}]{score.value:.4f}[/{colour}]  - {score.interpretation}"
     )
 
 
@@ -195,10 +194,7 @@ def _render_full_report(
         return
 
     colour = _score_colour(score.value)
-    panel_title = (
-        f"[bold]Gemeinwohl Assessment[/bold]  "
-        f"[{colour}]{score.value:.4f}[/{colour}]"
-    )
+    panel_title = f"[bold]Gemeinwohl Assessment[/bold]  [{colour}]{score.value:.4f}[/{colour}]"
     console.print(Panel(score.interpretation, title=panel_title, expand=False))
 
     table = Table(title="Normative Sub-Scores", show_header=True, header_style="bold cyan")
@@ -244,9 +240,7 @@ def _render_full_report(
         impl_table.add_column("Description")
         for imp in report.implications:
             ic = "red" if imp.severity >= 0.7 else ("yellow" if imp.severity >= 0.4 else "green")
-            impl_table.add_row(
-                imp.code, f"[{ic}]{imp.severity:.2f}[/{ic}]", imp.description
-            )
+            impl_table.add_row(imp.code, f"[{ic}]{imp.severity:.2f}[/{ic}]", imp.description)
         console.print(impl_table)
 
     if full and report.recommendations:
@@ -372,8 +366,7 @@ def kritikalitaet_check(
     lc = level_colours.get(report.level.name, "white")
     console.print(
         Panel(
-            f"Score: [bold]{score.value:.4f}[/bold]\n"
-            f"Level: [{lc}]{report.level.name}[/{lc}]",
+            f"Score: [bold]{score.value:.4f}[/bold]\nLevel: [{lc}]{report.level.name}[/{lc}]",
             title="[bold]Kritikalitaets-Check[/bold]",
             expand=False,
         )

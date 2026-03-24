@@ -43,9 +43,7 @@ class TestAssessCommand:
 
     def test_assess_export(self, tmp_path: Path):
         out_file = tmp_path / "result.json"
-        result = runner.invoke(
-            app, ["assess", "--entropy", "0.3", "--export", str(out_file)]
-        )
+        result = runner.invoke(app, ["assess", "--entropy", "0.3", "--export", str(out_file)])
         assert result.exit_code == 0
         assert out_file.exists()
         data = json.loads(out_file.read_text())
@@ -61,28 +59,20 @@ class TestAssessCommand:
 
     def test_assess_high_entropy_exit_code_2(self):
         # entropy=1.0 should produce emergency-level score → exit 2
-        result = runner.invoke(
-            app, ["assess", "--entropy", "1.0", "--personhood", "4"]
-        )
+        result = runner.invoke(app, ["assess", "--entropy", "1.0", "--personhood", "4"])
         # May or may not be 2 depending on exact weights; just check no crash
         assert result.exit_code in (0, 2)
 
     def test_assess_personhood_level(self):
-        result = runner.invoke(
-            app, ["assess", "--entropy", "0.3", "--personhood", "2"]
-        )
+        result = runner.invoke(app, ["assess", "--entropy", "0.3", "--personhood", "2"])
         assert result.exit_code == 0
 
     def test_assess_ecological_option(self):
-        result = runner.invoke(
-            app, ["assess", "--entropy", "0.3", "--ecological", "0.9"]
-        )
+        result = runner.invoke(app, ["assess", "--entropy", "0.3", "--ecological", "0.9"])
         assert result.exit_code == 0
 
     def test_assess_equity_option(self):
-        result = runner.invoke(
-            app, ["assess", "--entropy", "0.3", "--equity", "0.8"]
-        )
+        result = runner.invoke(app, ["assess", "--entropy", "0.3", "--equity", "0.8"])
         assert result.exit_code == 0
 
     def test_assess_all_options_combined(self, tmp_path: Path):
@@ -91,14 +81,20 @@ class TestAssessCommand:
             app,
             [
                 "assess",
-                "--entropy", "0.4",
-                "--models", "claude-3-sonnet",
-                "--personhood", "2",
-                "--ecological", "0.8",
-                "--equity", "0.7",
+                "--entropy",
+                "0.4",
+                "--models",
+                "claude-3-sonnet",
+                "--personhood",
+                "2",
+                "--ecological",
+                "0.8",
+                "--equity",
+                "0.7",
                 "--visualize",
                 "--full",
-                "--export", str(out_file),
+                "--export",
+                str(out_file),
             ],
         )
         assert result.exit_code == 0
@@ -147,9 +143,7 @@ class TestKritikalitaetCommands:
         assert "level" in data
 
     def test_kritikalitaet_check_high_entropy(self):
-        result = runner.invoke(
-            app, ["kritikalitaet", "check", "--entropy", "0.95"]
-        )
+        result = runner.invoke(app, ["kritikalitaet", "check", "--entropy", "0.95"])
         assert result.exit_code in (0, 2)
 
 
@@ -161,9 +155,13 @@ class TestEmergencyExitCode:
         result = runner.invoke(
             app,
             [
-                "assess", "--entropy", "1.0",
-                "--ecological", "0.0",
-                "--equity", "0.0",
+                "assess",
+                "--entropy",
+                "1.0",
+                "--ecological",
+                "0.0",
+                "--equity",
+                "0.0",
             ],
         )
         assert result.exit_code == 2
@@ -172,10 +170,14 @@ class TestEmergencyExitCode:
         result = runner.invoke(
             app,
             [
-                "kritikalitaet", "check",
-                "--entropy", "1.0",
-                "--ecological", "0.0",
-                "--equity", "0.0",
+                "kritikalitaet",
+                "check",
+                "--entropy",
+                "1.0",
+                "--ecological",
+                "0.0",
+                "--equity",
+                "0.0",
             ],
         )
         assert result.exit_code == 2

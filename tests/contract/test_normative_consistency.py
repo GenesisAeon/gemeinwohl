@@ -162,9 +162,7 @@ class TestNormativeContractPersonhoodConsistency:
     def test_policy_engine_alignment_consistent_with_min_score(self):
         policy = PolicyEngine()
         for level in PersonhoodLevel:
-            score_exact = GemeinwohlScore(
-                value=level.min_gemeinwohl_score, entropy=0.3, models=[]
-            )
+            score_exact = GemeinwohlScore(value=level.min_gemeinwohl_score, entropy=0.3, models=[])
             alignment = policy.evaluate_alignment("sys", score_exact, level)
             assert alignment.is_aligned is True
 

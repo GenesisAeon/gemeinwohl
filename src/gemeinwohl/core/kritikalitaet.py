@@ -234,8 +234,7 @@ class KritikalitaetsChecker:
                     severity=0.55,
                     dimension=NormativeMetric.ENTROPY_ORDER.value,
                     remediation=(
-                        "Review stochastic components and increase"
-                        " deterministic guardrails."
+                        "Review stochastic components and increase deterministic guardrails."
                     ),
                 )
             )
@@ -249,8 +248,7 @@ class KritikalitaetsChecker:
                     severity=0.8,
                     dimension=NormativeMetric.MODEL_ALIGNMENT.value,
                     remediation=(
-                        "Replace or fine-tune models; apply RLHF with"
-                        " common-good objectives."
+                        "Replace or fine-tune models; apply RLHF with common-good objectives."
                     ),
                 )
             )
@@ -270,9 +268,7 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E005",
-                    description=(
-                        "Normative inconsistency detected - ethical principles conflict."
-                    ),
+                    description=("Normative inconsistency detected - ethical principles conflict."),
                     severity=0.85,
                     dimension=NormativeMetric.NORMATIVE_CONSISTENCY.value,
                     remediation="Conduct normative coherence review with ethics board.",
@@ -284,9 +280,7 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E006",
-                    description=(
-                        "Insufficient personhood recognition may violate dignity norms."
-                    ),
+                    description=("Insufficient personhood recognition may violate dignity norms."),
                     severity=0.75,
                     dimension=NormativeMetric.PERSONHOOD_WEIGHTING.value,
                     remediation="Elevate personhood level or restrict system autonomy.",
@@ -298,9 +292,7 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E007",
-                    description=(
-                        "Negative ecological impact conflicts with sustainability norms."
-                    ),
+                    description=("Negative ecological impact conflicts with sustainability norms."),
                     severity=0.70,
                     dimension=NormativeMetric.ECOLOGICAL_IMPACT.value,
                     remediation="Implement green-AI practices and carbon offset measures.",
@@ -315,9 +307,7 @@ class KritikalitaetsChecker:
                     description="Low social equity score indicates distributional injustice.",
                     severity=0.65,
                     dimension=NormativeMetric.SOCIAL_EQUITY.value,
-                    remediation=(
-                        "Apply equity-aware training data and fairness constraints."
-                    ),
+                    remediation=("Apply equity-aware training data and fairness constraints."),
                 )
             )
 

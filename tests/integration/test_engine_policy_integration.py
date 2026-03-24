@@ -49,10 +49,7 @@ class TestEngineCheckerIntegration:
         assert len(report.recommendations) > 0
 
     def test_sequence_consistency_with_engine_scores(self):
-        scores = [
-            self.engine.compute_score(entropy=0.3 + i * 0.01)
-            for i in range(5)
-        ]
+        scores = [self.engine.compute_score(entropy=0.3 + i * 0.01) for i in range(5)]
         result = self.checker.check_sequence_consistency(scores)
         assert 0.0 <= result.consistency_score <= 1.0
 
@@ -83,8 +80,9 @@ class TestEnginePolicyIntegration:
         assert alignment.is_aligned is False
 
     def test_infer_max_personhood_pipeline(self):
-        score = self.engine.compute_score(entropy=0.1, models=["claude-3-opus"],
-                                          ecological_impact=0.9, social_equity=0.9)
+        score = self.engine.compute_score(
+            entropy=0.1, models=["claude-3-opus"], ecological_impact=0.9, social_equity=0.9
+        )
         level = self.policy.infer_max_personhood(score)
         assert isinstance(level, PersonhoodLevel)
 
