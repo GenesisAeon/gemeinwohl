@@ -1,27 +1,23 @@
 {
-  "title": "gemeinwohl: Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon",
+  "title": "GenesisAeon/gemeinwohl: v0.1.0 – Normativer Governance-Layer mit Gemeinwohl-Metrik, Personhood-Levels & ethischen Leitplanken",
   "version": "0.1.0",
-  "description": "gemeinwohl implements a normative metric layer for AI governance within the GenesisAeon ecosystem. It provides the GemeinwohlEngine for computing common-good scores from entropy, model alignment, normative consistency, personhood weighting, ecological impact, and social equity; a KritikalitaetsChecker for ethical implication analysis; a PolicyEngine with five-tier personhood model; and a Typer CLI. The package integrates with the full GenesisAeon stack (unified-mandala, worldview, aeon-ai, genesis-os, universums-sim, entropy-governance, sigillin).",
+  "doi": "10.5281/zenodo.19201980",
+  "description": "Normativer Gemeinwohl-Layer: GemeinwohlEngine mit normativer Metrik, Kritikalitäts-Checker und PolicyEngine (Personhood-Levels 0–6) für das GenesisAeon-Ökosystem.",
   "license": "MIT",
   "upload_type": "software",
   "access_right": "open",
   "creators": [
     {
-      "name": "GenesisAeon",
-      "affiliation": "GenesisAeon Project"
+      "name": "GenesisAeon Project"
     }
   ],
   "keywords": [
-    "common-good",
-    "ethics",
-    "AI governance",
-    "normative AI",
-    "personhood",
-    "GenesisAeon",
     "Gemeinwohl",
-    "entropy",
-    "alignment",
-    "Python"
+    "Personhood",
+    "normative-metrics",
+    "ethical-governance",
+    "GenesisAeon",
+    "common-good"
   ],
   "related_identifiers": [
     {
@@ -35,11 +31,5 @@
       "scheme": "url"
     }
   ],
-  "language": "eng",
-  "communities": [
-    {
-      "identifier": "genesisaeon"
-    }
-  ],
-  "grants": []
+  "language": "eng"
 }
