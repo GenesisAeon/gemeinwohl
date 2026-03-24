@@ -1,0 +1,187 @@
+[build-system]
+requires = ["hatchling>=1.21.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gemeinwohl"
+version = "0.1.0"
+description = "Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "GenesisAeon", email = "genesis@genesisaeon.org" },
+]
+keywords = [
+  "common-good",
+  "ethics",
+  "governance",
+  "normative-ai",
+  "personhood",
+  "genesisaeon",
+  "gemeinwohl",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+requires-python = ">=3.10"
+dependencies = [
+  "typer>=0.12.0",
+  "rich>=13.7.0",
+  "pydantic>=2.6.0",
+  "numpy>=1.26.0",
+  "scipy>=1.12.0",
+  "click>=8.1.0",
+]
+
+[project.optional-dependencies]
+full-stack = [
+  "unified-mandala>=0.2.0",
+  "worldview>=0.1.0",
+  "aeon-ai>=0.2.0",
+  "genesis-os>=0.2.0",
+  "universums-sim>=0.1.0",
+  "entropy-governance>=0.1.0",
+  "sigillin>=0.1.0",
+]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-cov>=5.0.0",
+  "pytest-asyncio>=0.23.0",
+  "mypy>=1.9.0",
+  "ruff>=0.4.0",
+  "mkdocs>=1.5.0",
+  "mkdocs-material>=9.5.0",
+  "mkdocstrings[python]>=0.24.0",
+  "pymdown-extensions>=10.7.0",
+]
+docs = [
+  "mkdocs>=1.5.0",
+  "mkdocs-material>=9.5.0",
+  "mkdocstrings[python]>=0.24.0",
+  "pymdown-extensions>=10.7.0",
+  "mkdocs-gen-files>=0.5.0",
+  "mkdocs-literate-nav>=0.6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/GenesisAeon/gemeinwohl"
+Documentation = "https://genesisaeon.github.io/gemeinwohl"
+Repository = "https://github.com/GenesisAeon/gemeinwohl"
+"Bug Tracker" = "https://github.com/GenesisAeon/gemeinwohl/issues"
+Changelog = "https://github.com/GenesisAeon/gemeinwohl/blob/main/CHANGELOG.md"
+Zenodo = "https://doi.org/10.5281/zenodo.gemeinwohl"
+
+[project.scripts]
+gemeinwohl = "gemeinwohl.cli.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gemeinwohl"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/docs",
+  "/README.md",
+  "/LICENSE",
+  "/CHANGELOG.md",
+]
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes
+  "I",   # isort
+  "B",   # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "UP",  # pyupgrade
+  "ARG", # flake8-unused-arguments
+  "SIM", # flake8-simplify
+  "TCH", # flake8-type-checking
+  "RUF", # ruff-specific
+  "N",   # pep8-naming
+  "ANN", # flake8-annotations
+  "D",   # pydocstring
+]
+ignore = [
+  "D100",   # missing docstring in public module (covered by __init__)
+  "D104",   # missing docstring in public package
+  "ANN201", # return type for public functions in some helper contexts
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["ANN", "D", "B017"]
+"src/gemeinwohl/cli/main.py" = [
+  "PLR0913",  # too many arguments (Typer CLI functions)
+  "FBT001",   # boolean positional arg in function def (Typer callback)
+  "ANN201",   # missing return type annotation for public functions
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+namespace_packages = true
+explicit_package_bases = true
+mypy_path = "src"
+
+[[tool.mypy.overrides]]
+module = [
+  "scipy.*",
+  "numpy.*",
+]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+  "--cov=gemeinwohl",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+  "--cov-fail-under=99",
+  "-v",
+]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+source = ["gemeinwohl"]
+branch = true
+omit = ["tests/*", "src/gemeinwohl/__main__.py"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "raise NotImplementedError",
+  "if TYPE_CHECKING:",
+  "@overload",
+]
