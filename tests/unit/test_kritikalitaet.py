@@ -61,7 +61,7 @@ class TestEthicalImplication:
 
     def test_frozen(self):
         imp = EthicalImplication(code="X", description="x", severity=0.5, dimension="d")
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             imp.code = "Y"  # type: ignore[misc]
 
     def test_remediation_default_empty(self):
@@ -100,7 +100,7 @@ class TestNormativeConsistencyResult:
 
 
 # ---------------------------------------------------------------------------
-# KritikalitaetsChecker – classify
+# KritikalitaetsChecker - classify
 # ---------------------------------------------------------------------------
 
 
@@ -153,7 +153,7 @@ class TestKritikalitaetsCheckerClassify:
 
 
 # ---------------------------------------------------------------------------
-# KritikalitaetsChecker – identify_implications
+# KritikalitaetsChecker - identify_implications
 # ---------------------------------------------------------------------------
 
 
@@ -271,7 +271,7 @@ class TestIdentifyImplications:
 
 
 # ---------------------------------------------------------------------------
-# KritikalitaetsChecker – check_sequence_consistency
+# KritikalitaetsChecker - check_sequence_consistency
 # ---------------------------------------------------------------------------
 
 
@@ -321,7 +321,7 @@ class TestSequenceConsistency:
 
 
 # ---------------------------------------------------------------------------
-# KritikalitaetsChecker – assess (full report)
+# KritikalitaetsChecker - assess (full report)
 # ---------------------------------------------------------------------------
 
 

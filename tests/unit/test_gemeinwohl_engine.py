@@ -11,7 +11,6 @@ from gemeinwohl.core.gemeinwohl import (
     NormativeWeights,
 )
 
-
 # ---------------------------------------------------------------------------
 # NormativeWeights
 # ---------------------------------------------------------------------------
@@ -51,11 +50,17 @@ class TestNormativeWeights:
 
     def test_negative_weight_raises(self):
         with pytest.raises(ValueError, match="non-negative"):
-            NormativeWeights(entropy_order=-0.1, model_alignment=0.6, normative_consistency=0.2,
-                             personhood_weighting=0.1, ecological_impact=0.1, social_equity=0.1)
+            NormativeWeights(
+                entropy_order=-0.1,
+                model_alignment=0.6,
+                normative_consistency=0.2,
+                personhood_weighting=0.1,
+                ecological_impact=0.1,
+                social_equity=0.1,
+            )
 
     def test_weights_not_summing_to_one_raises(self):
-        with pytest.raises(ValueError, match="sum to 1.0"):
+        with pytest.raises(ValueError, match=r"sum to 1\.0"):
             NormativeWeights(
                 entropy_order=0.5,
                 model_alignment=0.5,
@@ -67,7 +72,7 @@ class TestNormativeWeights:
 
     def test_weights_are_frozen(self):
         w = NormativeWeights()
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             w.entropy_order = 0.9  # type: ignore[misc]
 
 
@@ -150,8 +155,12 @@ class TestGemeinwohlEngineInit:
 
     def test_custom_weights_stored(self):
         w = NormativeWeights(
-            entropy_order=0.30, model_alignment=0.30, normative_consistency=0.10,
-            personhood_weighting=0.10, ecological_impact=0.10, social_equity=0.10,
+            entropy_order=0.30,
+            model_alignment=0.30,
+            normative_consistency=0.10,
+            personhood_weighting=0.10,
+            ecological_impact=0.10,
+            social_equity=0.10,
         )
         engine = GemeinwohlEngine(weights=w)
         assert engine.weights.entropy_order == 0.30

@@ -8,10 +8,10 @@ from gemeinwohl.core.kritikalitaet import (
 )
 
 __all__ = [
+    "EthicalImplication",
     "GemeinwohlEngine",
     "GemeinwohlScore",
-    "NormativeMetric",
     "KritikalitaetsChecker",
-    "EthicalImplication",
     "NormativeConsistencyResult",
+    "NormativeMetric",
 ]

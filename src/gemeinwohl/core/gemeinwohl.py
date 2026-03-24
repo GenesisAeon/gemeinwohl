@@ -1,4 +1,4 @@
-"""GemeinwohlEngine – normative metric computation and common-good scoring.
+r"""GemeinwohlEngine - normative metric computation and common-good scoring.
 
 Mathematical Foundation
 -----------------------
@@ -6,21 +6,21 @@ The Gemeinwohl Score **G** is defined as:
 
 .. math::
 
-    G(\\mathbf{x}) = w_E \\cdot \\Phi(H) + w_A \\cdot \\alpha(\\mathbf{m})
-                    + w_C \\cdot \\kappa(\\mathbf{c}) + w_P \\cdot \\pi(p)
+    G(\mathbf{x}) = w_E \cdot \Phi(H) + w_A \cdot \alpha(\mathbf{m})
+                    + w_C \cdot \kappa(\mathbf{c}) + w_P \cdot \pi(p)
 
 where:
-- :math:`H` is the system entropy (Shannon-normalised, :math:`H \\in [0, 1]`)
-- :math:`\\Phi(H) = 1 - H` is the order-contribution term
-- :math:`\\alpha(\\mathbf{m})` is the alignment score averaged across models :math:`\\mathbf{m}`
-- :math:`\\kappa(\\mathbf{c})` is the normative consistency coefficient
-- :math:`\\pi(p)` is the personhood-level weighting factor
-- :math:`w_E, w_A, w_C, w_P \\geq 0` with :math:`\\sum w_i = 1`
+- :math:`H` is the system entropy (Shannon-normalised, :math:`H \in [0, 1]`)
+- :math:`\Phi(H) = 1 - H` is the order-contribution term
+- :math:`\alpha(\mathbf{m})` is the alignment score averaged across models :math:`\mathbf{m}`
+- :math:`\kappa(\mathbf{c})` is the normative consistency coefficient
+- :math:`\pi(p)` is the personhood-level weighting factor
+- :math:`w_E, w_A, w_C, w_P \geq 0` with :math:`\sum w_i = 1`
 
-References
-----------
-Felber, C. (2010). *Die Gemeinwohl-Ökonomie*. Deuticke.
-Shannon, C. E. (1948). A mathematical theory of communication. *Bell System Technical Journal*, 27(3), 379–423.
+References:
+    Felber, C. (2010). *Die Gemeinwohl-Oekonomie*. Deuticke.
+    Shannon, C. E. (1948). A mathematical theory of communication.
+    *Bell System Technical Journal*, 27(3), 379-423.
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any
+from typing import Any, ClassVar
 
 import numpy as np
 
@@ -60,15 +60,15 @@ class NormativeMetric(Enum):
 
 @dataclass(frozen=True)
 class NormativeWeights:
-    """Weight vector for the Gemeinwohl Score formula.
+    r"""Weight vector for the Gemeinwohl Score formula.
 
     All weights must be non-negative and sum to 1.0.
 
     Attributes:
-        entropy_order: Weight for :math:`\\Phi(H)`.
-        model_alignment: Weight for :math:`\\alpha(\\mathbf{m})`.
-        normative_consistency: Weight for :math:`\\kappa`.
-        personhood_weighting: Weight for :math:`\\pi`.
+        entropy_order: Weight for :math:`\Phi(H)`.
+        model_alignment: Weight for :math:`\alpha(\mathbf{m})`.
+        normative_consistency: Weight for :math:`\kappa`.
+        personhood_weighting: Weight for :math:`\pi`.
         ecological_impact: Weight for ecological component.
         social_equity: Weight for social equity component.
     """
@@ -126,14 +126,14 @@ class GemeinwohlScore:
     def _interpret(self) -> str:
         """Return a qualitative interpretation of the score."""
         if self.value >= 0.85:
-            return "Excellent – high common-good alignment"
+            return "Excellent - high common-good alignment"
         if self.value >= 0.70:
-            return "Good – solid normative foundation"
+            return "Good - solid normative foundation"
         if self.value >= 0.50:
-            return "Moderate – improvement recommended"
+            return "Moderate - improvement recommended"
         if self.value >= 0.30:
-            return "Weak – significant normative deficits"
-        return "Critical – immediate governance intervention required"
+            return "Weak - significant normative deficits"
+        return "Critical - immediate governance intervention required"
 
     def to_dict(self) -> dict[str, Any]:
         """Serialise to a plain dictionary."""
@@ -148,15 +148,15 @@ class GemeinwohlScore:
 
 
 class GemeinwohlEngine:
-    """Core engine for computing Gemeinwohl Scores.
+    r"""Core engine for computing Gemeinwohl Scores.
 
     The engine applies the normative metric formula:
 
     .. math::
 
-        G = \\sum_{i} w_i \\cdot s_i
+        G = \sum_{i} w_i \cdot s_i
 
-    where :math:`s_i \\in [0, 1]` are individual dimension scores.
+    where :math:`s_i \in [0, 1]` are individual dimension scores.
 
     Args:
         weights: Optional custom weight vector. Defaults to :class:`NormativeWeights`.
@@ -164,7 +164,7 @@ class GemeinwohlEngine:
             alignment scores in [0, 1].
     """
 
-    _DEFAULT_MODEL_ALIGNMENT: dict[str, float] = {
+    _DEFAULT_MODEL_ALIGNMENT: ClassVar[dict[str, float]] = {
         "gpt-4": 0.78,
         "gpt-4o": 0.80,
         "claude-3-opus": 0.88,
@@ -306,7 +306,7 @@ class GemeinwohlEngine:
 
     @staticmethod
     def _score_entropy_order(entropy: float) -> float:
-        """Compute Φ(H) = 1 − H (clamped to [0, 1])."""
+        """Compute Phi(H) = 1 - H (clamped to [0, 1])."""
         return float(np.clip(1.0 - entropy, 0.0, 1.0))
 
     def _score_model_alignment(self, models: list[str]) -> float:
@@ -321,13 +321,13 @@ class GemeinwohlEngine:
 
     @staticmethod
     def _derive_consistency(entropy: float, alignment: float) -> float:
-        """Derive normative consistency from entropy and alignment.
+        r"""Derive normative consistency from entropy and alignment.
 
         Uses a soft harmonic mean that penalises high entropy:
 
         .. math::
 
-            \\kappa = \\frac{2 \\cdot (1-H) \\cdot \\alpha}{(1-H) + \\alpha + \\epsilon}
+            \kappa = \frac{2 \cdot (1-H) \cdot \alpha}{(1-H) + \alpha + \epsilon}
         """
         order = 1.0 - entropy
         eps = 1e-9

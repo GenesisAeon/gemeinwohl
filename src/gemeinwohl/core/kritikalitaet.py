@@ -1,62 +1,62 @@
-"""KritikalitaetsChecker – ethical implication analysis and normative consistency.
+r"""KritikalitaetsChecker - ethical implication analysis and normative consistency.
 
-The Kritikalitäts-Model
------------------------
-A system state is assigned a **Kritikalitäts-Level** *K* according to:
+The Kritikalitaets-Model
+------------------------
+A system state is assigned a **Kritikalitaets-Level** *K* according to:
 
 .. math::
 
-    K(G, \\sigma) = \\begin{cases}
-        0 & G \\geq \\theta_{\\text{safe}} \\\\
-        1 & \\theta_{\\text{warn}} \\leq G < \\theta_{\\text{safe}} \\\\
-        2 & \\theta_{\\text{crit}} \\leq G < \\theta_{\\text{warn}} \\\\
-        3 & G < \\theta_{\\text{crit}}
-    \\end{cases}
+    K(G, \sigma) = \begin{cases}
+        0 & G \geq \theta_{\text{safe}} \\
+        1 & \theta_{\text{warn}} \leq G < \theta_{\text{safe}} \\
+        2 & \theta_{\text{crit}} \leq G < \theta_{\text{warn}} \\
+        3 & G < \theta_{\text{crit}}
+    \end{cases}
 
-where :math:`\\sigma` is the standard deviation of repeated assessments and
-:math:`\\theta_{\\text{safe}} = 0.70`,
-:math:`\\theta_{\\text{warn}} = 0.50`,
-:math:`\\theta_{\\text{crit}} = 0.30`.
+where :math:`\sigma` is the standard deviation of repeated assessments and
+:math:`\theta_{\text{safe}} = 0.70`,
+:math:`\theta_{\text{warn}} = 0.50`,
+:math:`\theta_{\text{crit}} = 0.30`.
 
 Normative Consistency
 ---------------------
-For a sequence of scores :math:`\\{G_t\\}_{t=1}^{T}`, normative consistency is:
+For a sequence of scores :math:`\{G_t\}_{t=1}^{T}`, normative consistency is:
 
 .. math::
 
-    \\kappa_{\\text{seq}} = 1 - \\frac{\\text{Var}(\\{G_t\\})}{\\mu(\\{G_t\\}) + \\epsilon}
+    \kappa_{\text{seq}} = 1 - \frac{\text{Var}(\{G_t\})}{\mu(\{G_t\}) + \epsilon}
 
-References
-----------
-Rawls, J. (1971). *A Theory of Justice*. Harvard University Press.
-Habermas, J. (1981). *Theorie des kommunikativen Handelns*. Suhrkamp.
+References:
+    Rawls, J. (1971). *A Theory of Justice*. Harvard University Press.
+    Habermas, J. (1981). *Theorie des kommunikativen Handelns*. Suhrkamp.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import numpy as np
 
-from gemeinwohl.core.gemeinwohl import GemeinwohlScore
+if TYPE_CHECKING:
+    from gemeinwohl.core.gemeinwohl import GemeinwohlScore
 
 
 class KritikalitaetsLevel(IntEnum):
     """Discrete criticality levels for Gemeinwohl assessments."""
 
     SAFE = 0
-    """Score ≥ 0.70 – system operates within normative bounds."""
+    """Score >= 0.70 - system operates within normative bounds."""
 
     WARNING = 1
-    """0.50 ≤ Score < 0.70 – advisory review recommended."""
+    """0.50 <= Score < 0.70 - advisory review recommended."""
 
     CRITICAL = 2
-    """0.30 ≤ Score < 0.50 – governance intervention warranted."""
+    """0.30 <= Score < 0.50 - governance intervention warranted."""
 
     EMERGENCY = 3
-    """Score < 0.30 – immediate halt and review required."""
+    """Score < 0.30 - immediate halt and review required."""
 
 
 @dataclass(frozen=True)
@@ -85,11 +85,11 @@ class EthicalImplication:
 
 @dataclass
 class NormativeConsistencyResult:
-    """Result of a normative consistency check.
+    r"""Result of a normative consistency check.
 
     Attributes:
         is_consistent: True when consistency score exceeds threshold.
-        consistency_score: Computed :math:`\\kappa_{\\text{seq}}` value.
+        consistency_score: Computed :math:`\kappa_{\text{seq}}` value.
         variance: Variance of the input score sequence.
         mean: Mean of the input score sequence.
         threshold: Threshold applied for the binary decision.
@@ -152,18 +152,17 @@ class KritikalitaetsReport:
 
 
 class KritikalitaetsChecker:
-    """Analyse ethical implications and normative consistency of Gemeinwohl Scores.
+    r"""Analyse ethical implications and normative consistency of Gemeinwohl Scores.
 
     Args:
         theta_safe: Lower bound for safe classification (default 0.70).
         theta_warn: Lower bound for warning classification (default 0.50).
         theta_crit: Lower bound for critical classification (default 0.30).
-        consistency_threshold: Minimum :math:`\\kappa_{\\text{seq}}` for
+        consistency_threshold: Minimum :math:`\kappa_{\text{seq}}` for
             a sequence to be considered normatively consistent (default 0.70).
     """
 
-    # Built-in implication rules: (condition_fn, implication)
-    _RULES: list[tuple[Any, EthicalImplication]] = []
+    _RULES: ClassVar[list[tuple[Any, EthicalImplication]]] = []
 
     def __init__(
         self,
@@ -175,7 +174,7 @@ class KritikalitaetsChecker:
         """Initialise with configurable thresholds."""
         if not (0.0 <= theta_crit < theta_warn < theta_safe <= 1.0):
             raise ValueError(
-                "Thresholds must satisfy 0 ≤ theta_crit < theta_warn < theta_safe ≤ 1."
+                "Thresholds must satisfy 0 <= theta_crit < theta_warn < theta_safe <= 1."
             )
         self.theta_safe = theta_safe
         self.theta_warn = theta_warn
@@ -234,7 +233,10 @@ class KritikalitaetsChecker:
                     description="Elevated entropy may compromise normative predictability.",
                     severity=0.55,
                     dimension=NormativeMetric.ENTROPY_ORDER.value,
-                    remediation="Review stochastic components and increase deterministic guardrails.",
+                    remediation=(
+                        "Review stochastic components and increase"
+                        " deterministic guardrails."
+                    ),
                 )
             )
 
@@ -246,7 +248,10 @@ class KritikalitaetsChecker:
                     description="Low model alignment indicates potential value misalignment.",
                     severity=0.8,
                     dimension=NormativeMetric.MODEL_ALIGNMENT.value,
-                    remediation="Replace or fine-tune models; apply RLHF with common-good objectives.",
+                    remediation=(
+                        "Replace or fine-tune models; apply RLHF with"
+                        " common-good objectives."
+                    ),
                 )
             )
         elif alignment < 0.7:
@@ -265,7 +270,9 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E005",
-                    description="Normative inconsistency detected – ethical principles conflict.",
+                    description=(
+                        "Normative inconsistency detected - ethical principles conflict."
+                    ),
                     severity=0.85,
                     dimension=NormativeMetric.NORMATIVE_CONSISTENCY.value,
                     remediation="Conduct normative coherence review with ethics board.",
@@ -277,7 +284,9 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E006",
-                    description="Insufficient personhood recognition may violate dignity norms.",
+                    description=(
+                        "Insufficient personhood recognition may violate dignity norms."
+                    ),
                     severity=0.75,
                     dimension=NormativeMetric.PERSONHOOD_WEIGHTING.value,
                     remediation="Elevate personhood level or restrict system autonomy.",
@@ -289,7 +298,9 @@ class KritikalitaetsChecker:
             implications.append(
                 EthicalImplication(
                     code="E007",
-                    description="Negative ecological impact conflicts with sustainability norms.",
+                    description=(
+                        "Negative ecological impact conflicts with sustainability norms."
+                    ),
                     severity=0.70,
                     dimension=NormativeMetric.ECOLOGICAL_IMPACT.value,
                     remediation="Implement green-AI practices and carbon offset measures.",
@@ -304,7 +315,9 @@ class KritikalitaetsChecker:
                     description="Low social equity score indicates distributional injustice.",
                     severity=0.65,
                     dimension=NormativeMetric.SOCIAL_EQUITY.value,
-                    remediation="Apply equity-aware training data and fairness constraints.",
+                    remediation=(
+                        "Apply equity-aware training data and fairness constraints."
+                    ),
                 )
             )
 

@@ -1,6 +1,5 @@
 """Unit tests for integration adapters."""
 
-import importlib
 from unittest.mock import patch
 
 import pytest
@@ -42,7 +41,7 @@ class TestIntegrationResult:
 
     def test_frozen(self):
         r = IntegrationResult(package_name="pkg", status=PackageStatus.UNAVAILABLE)
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             r.package_name = "other"  # type: ignore[misc]
 
     def test_version_defaults_none(self):

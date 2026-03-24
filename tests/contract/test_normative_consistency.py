@@ -148,7 +148,6 @@ class TestNormativeContractPersonhoodConsistency:
 
     def test_each_level_threshold_satisfies_lower_levels(self):
         policy = PolicyEngine()
-        engine = GemeinwohlEngine()
 
         for level in PersonhoodLevel:
             min_score = level.min_gemeinwohl_score

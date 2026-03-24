@@ -1,4 +1,4 @@
-"""Governance policy engine – Personhood-Levels and Gemeinwohl-Alignment.
+r"""Governance policy engine - Personhood-Levels and Gemeinwohl-Alignment.
 
 Personhood Framework
 --------------------
@@ -21,25 +21,25 @@ Each personhood level maps to a required minimum Gemeinwohl Score **G_min**:
 
 .. math::
 
-    G_{\\min}(p) = 0.40 + 0.12 \\cdot p, \\quad p \\in \\{0, 1, 2, 3, 4\\}
+    G_{\min}(p) = 0.40 + 0.12 \cdot p, \quad p \in \{0, 1, 2, 3, 4\}
 
 Systems failing to meet **G_min** are subject to autonomy restrictions.
 
-References
-----------
-Floridi, L. et al. (2018). An ethical framework for a good AI society.
-*Minds and Machines*, 28(4), 689–707.
-Solum, L. B. (1992). Legal personhood for artificial intelligences.
-*North Carolina Law Review*, 70(4), 1231–1287.
+References:
+    Floridi, L. et al. (2018). An ethical framework for a good AI society.
+    *Minds and Machines*, 28(4), 689-707.
+    Solum, L. B. (1992). Legal personhood for artificial intelligences.
+    *North Carolina Law Review*, 70(4), 1231-1287.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import IntEnum
-from typing import Any
+from typing import TYPE_CHECKING, Any, ClassVar
 
-from gemeinwohl.core.gemeinwohl import GemeinwohlScore
+if TYPE_CHECKING:
+    from gemeinwohl.core.gemeinwohl import GemeinwohlScore
 
 
 class PersonhoodLevel(IntEnum):
@@ -74,7 +74,7 @@ class PersonhoodLevel(IntEnum):
 
     @property
     def weighting_factor(self) -> float:
-        """Normalised weighting factor :math:`\\pi(p) = p / 4`.
+        r"""Normalised weighting factor :math:`\pi(p) = p / 4`.
 
         Returns:
             Value in [0.0, 1.0].
@@ -158,7 +158,7 @@ class PolicyEngine:
         custom_rules: Additional policy rules to enforce.
     """
 
-    _BUILT_IN_RULES: list[PolicyRule] = [
+    _BUILT_IN_RULES: ClassVar[list[PolicyRule]] = [
         PolicyRule(
             rule_id="P001",
             description="Minimum baseline normative score for any operational system.",
@@ -255,7 +255,7 @@ class PolicyEngine:
             score: Score to evaluate.
 
         Returns:
-            Mapping of rule_id → pass/fail boolean.
+            Mapping of rule_id to pass/fail boolean.
         """
         return {rule.rule_id: rule.evaluate(score) for rule in self._rules}
 

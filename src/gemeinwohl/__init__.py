@@ -1,4 +1,4 @@
-"""Gemeinwohl – Normative Common-Good Layer for GenesisAeon.
+"""Gemeinwohl - Normative Common-Good Layer for GenesisAeon.
 
 This package provides:
 - GemeinwohlEngine: normative metric computation and common-good scoring
@@ -30,13 +30,13 @@ from gemeinwohl.governance.policy import (
 )
 
 __all__ = [
+    "EthicalImplication",
+    "GemeinwohlAlignment",
     "GemeinwohlEngine",
     "GemeinwohlScore",
-    "NormativeMetric",
     "KritikalitaetsChecker",
-    "EthicalImplication",
     "NormativeConsistencyResult",
-    "GemeinwohlAlignment",
+    "NormativeMetric",
     "PersonhoodLevel",
     "PolicyEngine",
 ]

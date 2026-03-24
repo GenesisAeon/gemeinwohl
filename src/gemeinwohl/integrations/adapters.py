@@ -1,19 +1,19 @@
-"""Integration adapters for the GenesisAeon full-stack optional dependencies.
+"""Optional integration adapters for the GenesisAeon full-stack optional dependencies.
 
 Each adapter follows the :class:`BasePackageAdapter` contract, exposing a
 ``ping()`` method that returns :class:`IntegrationResult` regardless of whether
-the optional package is installed.  This enables contract-tests to run in the
+the optional package is installed. This enables contract-tests to run in the
 base environment and full-stack tests when the extras are present.
 
 Supported packages
 ------------------
-- ``unified-mandala`` ≥ 0.2.0
-- ``worldview`` ≥ 0.1.0
-- ``aeon-ai`` ≥ 0.2.0
-- ``genesis-os`` ≥ 0.2.0
-- ``universums-sim`` ≥ 0.1.0
-- ``entropy-governance`` ≥ 0.1.0
-- ``sigillin`` ≥ 0.1.0
+- ``unified-mandala`` >= 0.2.0
+- ``worldview`` >= 0.1.0
+- ``aeon-ai`` >= 0.2.0
+- ``genesis-os`` >= 0.2.0
+- ``universums-sim`` >= 0.1.0
+- ``entropy-governance`` >= 0.1.0
+- ``sigillin`` >= 0.1.0
 """
 
 from __future__ import annotations
@@ -76,6 +76,7 @@ class BasePackageAdapter:
         package_name: str,
         min_version: str = "0.0.0",
     ) -> None:
+        """Initialise the adapter with import and package identifiers."""
         self._import_name = import_name
         self._package_name = package_name
         self._min_version = min_version
@@ -104,7 +105,7 @@ class BasePackageAdapter:
                 package_name=self._package_name,
                 status=PackageStatus.UNAVAILABLE,
             )
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             return IntegrationResult(
                 package_name=self._package_name,
                 status=PackageStatus.ERROR,
@@ -118,51 +119,58 @@ class BasePackageAdapter:
 
 
 class UnifiedMandalAdapter(BasePackageAdapter):
-    """Adapter for ``unified-mandala`` ≥ 0.2.0."""
+    """Adapter for ``unified-mandala`` >= 0.2.0."""
 
     def __init__(self) -> None:
+        """Initialise with unified-mandala import path."""
         super().__init__("unified_mandala", "unified-mandala", "0.2.0")
 
 
 class WorldviewAdapter(BasePackageAdapter):
-    """Adapter for ``worldview`` ≥ 0.1.0."""
+    """Adapter for ``worldview`` >= 0.1.0."""
 
     def __init__(self) -> None:
+        """Initialise with worldview import path."""
         super().__init__("worldview", "worldview", "0.1.0")
 
 
 class AeonAIAdapter(BasePackageAdapter):
-    """Adapter for ``aeon-ai`` ≥ 0.2.0."""
+    """Adapter for ``aeon-ai`` >= 0.2.0."""
 
     def __init__(self) -> None:
+        """Initialise with aeon_ai import path."""
         super().__init__("aeon_ai", "aeon-ai", "0.2.0")
 
 
 class GenesisOSAdapter(BasePackageAdapter):
-    """Adapter for ``genesis-os`` ≥ 0.2.0."""
+    """Adapter for ``genesis-os`` >= 0.2.0."""
 
     def __init__(self) -> None:
+        """Initialise with genesis_os import path."""
         super().__init__("genesis_os", "genesis-os", "0.2.0")
 
 
 class UniversumsSimAdapter(BasePackageAdapter):
-    """Adapter for ``universums-sim`` ≥ 0.1.0."""
+    """Adapter for ``universums-sim`` >= 0.1.0."""
 
     def __init__(self) -> None:
+        """Initialise with universums_sim import path."""
         super().__init__("universums_sim", "universums-sim", "0.1.0")
 
 
 class EntropyGovernanceAdapter(BasePackageAdapter):
-    """Adapter for ``entropy-governance`` ≥ 0.1.0."""
+    """Adapter for ``entropy-governance`` >= 0.1.0."""
 
     def __init__(self) -> None:
+        """Initialise with entropy_governance import path."""
         super().__init__("entropy_governance", "entropy-governance", "0.1.0")
 
 
 class SigillinAdapter(BasePackageAdapter):
-    """Adapter for ``sigillin`` ≥ 0.1.0."""
+    """Adapter for ``sigillin`` >= 0.1.0."""
 
     def __init__(self) -> None:
+        """Initialise with sigillin import path."""
         super().__init__("sigillin", "sigillin", "0.1.0")
 
 
@@ -182,6 +190,6 @@ def ping_all() -> dict[str, IntegrationResult]:
     """Ping all registered adapters.
 
     Returns:
-        Mapping of package name → :class:`IntegrationResult`.
+        Mapping of package name to :class:`IntegrationResult`.
     """
     return {adapter.package_name: adapter.ping() for adapter in ALL_ADAPTERS}

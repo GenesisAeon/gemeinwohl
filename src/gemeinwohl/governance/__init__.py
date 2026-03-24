@@ -1,4 +1,4 @@
-"""Governance layer – Personhood-Levels and Gemeinwohl-Alignment policies."""
+"""Governance layer - Personhood-Levels and Gemeinwohl-Alignment policies."""
 
 from gemeinwohl.governance.policy import GemeinwohlAlignment, PersonhoodLevel, PolicyEngine
 

@@ -108,7 +108,7 @@ class TestFullStackNormativeConsistency:
         engine = GemeinwohlEngine()
         checker = KritikalitaetsChecker()
 
-        # Compute same score ten times – results must be identical (deterministic)
+        # Compute same score ten times - results must be identical (deterministic)
         scores = [engine.compute_score(entropy=0.35, models=["gpt-4"]) for _ in range(10)]
         levels = [checker.classify(s) for s in scores]
         assert len(set(levels)) == 1  # all same

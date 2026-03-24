@@ -140,7 +140,7 @@ class TestGemeinwohlAlignment:
             required_minimum=0.40,
             gap=0.30,
         )
-        with pytest.raises(Exception):
+        with pytest.raises(AttributeError):
             alignment.system_id = "other"  # type: ignore[misc]
 
 
@@ -189,7 +189,8 @@ class TestPolicyEngine:
         engine = PolicyEngine()
         score = make_score(0.80)
         alignment = engine.evaluate_alignment("sys1", score, PersonhoodLevel.RELATIONAL)
-        assert alignment.gap == pytest.approx(score.value - PersonhoodLevel.RELATIONAL.min_gemeinwohl_score)
+        expected_gap = score.value - PersonhoodLevel.RELATIONAL.min_gemeinwohl_score
+        assert alignment.gap == pytest.approx(expected_gap)
 
     def test_evaluate_uses_default_personhood_when_none(self):
         engine = PolicyEngine(default_personhood=PersonhoodLevel.REACTIVE)
@@ -226,7 +227,7 @@ class TestPolicyEngine:
         engine = PolicyEngine()
         score = make_score(0.95)
         results = engine.apply_rules(score)
-        # P001–P004 are built-in; high score should pass P001
+        # P001-P004 are built-in; high score should pass P001
         assert results["P001"] is True
 
     def test_apply_rules_low_score_p001_fails(self):

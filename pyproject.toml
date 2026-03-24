@@ -121,17 +121,21 @@ select = [
   "D",   # pydocstring
 ]
 ignore = [
-  "D100", # missing docstring in public module (covered by __init__)
-  "D104", # missing docstring in public package
-  "ANN101", # missing type annotation for self
-  "ANN102", # missing type annotation for cls
+  "D100",   # missing docstring in public module (covered by __init__)
+  "D104",   # missing docstring in public package
+  "ANN201", # return type for public functions in some helper contexts
 ]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["ANN", "D"]
+"tests/**" = ["ANN", "D", "B017"]
+"src/gemeinwohl/cli/main.py" = [
+  "PLR0913",  # too many arguments (Typer CLI functions)
+  "FBT001",   # boolean positional arg in function def (Typer callback)
+  "ANN201",   # missing return type annotation for public functions
+]
 
 [tool.mypy]
 python_version = "3.10"

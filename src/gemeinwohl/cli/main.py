@@ -12,16 +12,15 @@ Usage examples::
 from __future__ import annotations
 
 import json
-import sys
-from pathlib import Path
-from typing import Optional
+from pathlib import Path  # noqa: TC003
+from typing import Annotated
 
 import typer
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from gemeinwohl.core.gemeinwohl import GemeinwohlEngine, NormativeWeights
+from gemeinwohl.core.gemeinwohl import GemeinwohlEngine
 from gemeinwohl.core.kritikalitaet import KritikalitaetsChecker
 from gemeinwohl.governance.policy import PersonhoodLevel, PolicyEngine
 
@@ -58,16 +57,18 @@ def _version_callback(value: bool) -> None:
 
 @app.callback()
 def main(
-    version: Optional[bool] = typer.Option(  # noqa: UP007
-        None,
-        "--version",
-        "-V",
-        callback=_version_callback,
-        is_eager=True,
-        help="Show version and exit.",
-    ),
+    version: Annotated[
+        bool | None,
+        typer.Option(
+            "--version",
+            "-V",
+            callback=_version_callback,
+            is_eager=True,
+            help="Show version and exit.",
+        ),
+    ] = None,
 ) -> None:
-    """Gemeinwohl – Normative Common-Good Layer for GenesisAeon."""
+    """Gemeinwohl - Normative Common-Good Layer for GenesisAeon."""
 
 
 # ---------------------------------------------------------------------------
@@ -78,58 +79,42 @@ def main(
 @assess_app.callback(invoke_without_command=True)
 def assess(
     ctx: typer.Context,
-    entropy: float = typer.Option(
-        ...,
-        "--entropy",
-        "-e",
-        help="System entropy in [0, 1].",
-        show_default=False,
-    ),
-    models: Optional[list[str]] = typer.Option(  # noqa: UP007
-        None,
-        "--models",
-        "-m",
-        help="Model identifiers to include in alignment scoring.",
-    ),
-    personhood: int = typer.Option(
-        0,
-        "--personhood",
-        "-p",
-        help="Personhood level [0-4] (default: 0 = Instrumental).",
-        min=0,
-        max=4,
-    ),
-    ecological: float = typer.Option(
-        0.7,
-        "--ecological",
-        help="Ecological impact score in [0, 1].",
-    ),
-    equity: float = typer.Option(
-        0.6,
-        "--equity",
-        help="Social equity score in [0, 1].",
-    ),
-    visualize: bool = typer.Option(
-        False,
-        "--visualize",
-        "-v",
-        help="Display a rich summary table.",
-    ),
-    export: Optional[Path] = typer.Option(  # noqa: UP007
-        None,
-        "--export",
-        help="Export result as JSON to this file path.",
-    ),
-    full: bool = typer.Option(
-        False,
-        "--full",
-        help="Include ethical implications and recommendations.",
-    ),
+    entropy: Annotated[
+        float,
+        typer.Option("--entropy", "-e", help="System entropy in [0, 1]."),
+    ],
+    models: Annotated[
+        list[str] | None,
+        typer.Option("--models", "-m", help="Model identifiers to include."),
+    ] = None,
+    personhood: Annotated[
+        int,
+        typer.Option("--personhood", "-p", help="Personhood level [0-4].", min=0, max=4),
+    ] = 0,
+    ecological: Annotated[
+        float,
+        typer.Option("--ecological", help="Ecological impact score in [0, 1]."),
+    ] = 0.7,
+    equity: Annotated[
+        float,
+        typer.Option("--equity", help="Social equity score in [0, 1]."),
+    ] = 0.6,
+    visualize: Annotated[
+        bool,
+        typer.Option("--visualize", "-v", help="Display a rich summary table."),
+    ] = False,
+    export: Annotated[
+        Path | None,
+        typer.Option("--export", help="Export result as JSON to this file path."),
+    ] = None,
+    full: Annotated[
+        bool,
+        typer.Option("--full", help="Include ethical implications and recommendations."),
+    ] = False,
 ) -> None:
     """Compute the Gemeinwohl Score for the given parameters.
 
     Examples:
-
         gemeinwohl assess --entropy 0.3 --models gpt-4 claude-3-sonnet --visualize
 
         gemeinwohl assess --entropy 0.5 --full --export report.json
@@ -139,7 +124,7 @@ def assess(
 
     try:
         level = PersonhoodLevel(personhood)
-    except ValueError:
+    except ValueError:  # pragma: no cover
         err_console.print(f"[red]Invalid personhood level: {personhood}. Must be 0-4.[/red]")
         raise typer.Exit(code=1) from None
 
@@ -174,14 +159,13 @@ def assess(
         export.write_text(json.dumps(data, indent=2))
         console.print(f"\n[green]Result exported to {export}[/green]")
 
-    # Non-zero exit for emergency level
     from gemeinwohl.core.kritikalitaet import KritikalitaetsLevel
 
     if report.level == KritikalitaetsLevel.EMERGENCY:
         raise typer.Exit(code=2)
 
 
-def _render_compact(score: "GemeinwohlEngine") -> None:  # type: ignore[type-arg]
+def _render_compact(score: object) -> None:
     from gemeinwohl.core.gemeinwohl import GemeinwohlScore
 
     if not isinstance(score, GemeinwohlScore):  # pragma: no cover
@@ -189,7 +173,7 @@ def _render_compact(score: "GemeinwohlEngine") -> None:  # type: ignore[type-arg
     colour = _score_colour(score.value)
     console.print(
         f"\nGemeinwohl Score: [{colour}]{score.value:.4f}[/{colour}]"
-        f"  – {score.interpretation}"
+        f"  - {score.interpretation}"
     )
 
 
@@ -199,7 +183,7 @@ def _render_full_report(
     alignment: object,
     full: bool = False,
 ) -> None:
-    from gemeinwohl.core.gemeinwohl import GemeinwohlScore, NormativeMetric
+    from gemeinwohl.core.gemeinwohl import GemeinwohlScore
     from gemeinwohl.core.kritikalitaet import KritikalitaetsReport
     from gemeinwohl.governance.policy import GemeinwohlAlignment
 
@@ -217,7 +201,6 @@ def _render_full_report(
     )
     console.print(Panel(score.interpretation, title=panel_title, expand=False))
 
-    # Sub-scores table
     table = Table(title="Normative Sub-Scores", show_header=True, header_style="bold cyan")
     table.add_column("Dimension", style="dim")
     table.add_column("Score", justify="right")
@@ -233,33 +216,43 @@ def _render_full_report(
         )
     console.print(table)
 
-    # Criticality
-    level_colours = {"SAFE": "green", "WARNING": "yellow", "CRITICAL": "red", "EMERGENCY": "bold red"}
+    level_colours = {
+        "SAFE": "green",
+        "WARNING": "yellow",
+        "CRITICAL": "red",
+        "EMERGENCY": "bold red",
+    }
     lc = level_colours.get(report.level.name, "white")
     console.print(f"\nCriticality Level: [{lc}]{report.level.name}[/{lc}]")
 
-    # Alignment
     al_c = "green" if alignment.is_aligned else "red"
     console.print(
         f"Personhood Alignment [{alignment.personhood_level.name}]: "
         f"[{al_c}]{'PASS' if alignment.is_aligned else 'FAIL'}[/{al_c}]"
-        f"  (required ≥ {alignment.required_minimum:.2f}, gap = {alignment.gap:+.4f})"
+        f"  (required >= {alignment.required_minimum:.2f},"
+        f" gap = {alignment.gap:+.4f})"
     )
 
     if full and report.implications:
-        impl_table = Table(title="Ethical Implications", show_header=True, header_style="bold magenta")
+        impl_table = Table(
+            title="Ethical Implications",
+            show_header=True,
+            header_style="bold magenta",
+        )
         impl_table.add_column("Code")
         impl_table.add_column("Severity", justify="right")
         impl_table.add_column("Description")
         for imp in report.implications:
             ic = "red" if imp.severity >= 0.7 else ("yellow" if imp.severity >= 0.4 else "green")
-            impl_table.add_row(imp.code, f"[{ic}]{imp.severity:.2f}[/{ic}]", imp.description)
+            impl_table.add_row(
+                imp.code, f"[{ic}]{imp.severity:.2f}[/{ic}]", imp.description
+            )
         console.print(impl_table)
 
     if full and report.recommendations:
         console.print("\n[bold]Governance Recommendations:[/bold]")
         for rec in report.recommendations:
-            console.print(f"  • {rec}")
+            console.print(f"  * {rec}")
 
 
 def _score_colour(val: float) -> str:
@@ -279,11 +272,17 @@ def _score_colour(val: float) -> str:
 
 @policy_app.command("infer")
 def policy_infer(
-    entropy: float = typer.Option(..., "--entropy", "-e", help="System entropy in [0, 1]."),
-    models: Optional[list[str]] = typer.Option(None, "--models", "-m"),  # noqa: UP007
-    personhood: int = typer.Option(0, "--personhood", "-p", min=0, max=4),
-    ecological: float = typer.Option(0.7, "--ecological"),
-    equity: float = typer.Option(0.6, "--equity"),
+    entropy: Annotated[
+        float,
+        typer.Option("--entropy", "-e", help="System entropy in [0, 1]."),
+    ],
+    models: Annotated[
+        list[str] | None,
+        typer.Option("--models", "-m"),
+    ] = None,
+    personhood: Annotated[int, typer.Option("--personhood", "-p", min=0, max=4)] = 0,
+    ecological: Annotated[float, typer.Option("--ecological")] = 0.7,
+    equity: Annotated[float, typer.Option("--equity")] = 0.6,
 ) -> None:
     """Infer the highest achievable personhood level for given parameters."""
     engine = GemeinwohlEngine()
@@ -300,7 +299,7 @@ def policy_infer(
 
     max_level = policy.infer_max_personhood(score)
     console.print(
-        f"\nScore: [bold]{score.value:.4f}[/bold]  →  "
+        f"\nScore: [bold]{score.value:.4f}[/bold]  ->  "
         f"Max Personhood: [green]{max_level.name}[/green] "
         f"(Level {int(max_level)})"
     )
@@ -334,12 +333,21 @@ def policy_rules() -> None:
 
 @kritikalitaet_app.command("check")
 def kritikalitaet_check(
-    entropy: float = typer.Option(..., "--entropy", "-e", help="System entropy in [0, 1]."),
-    models: Optional[list[str]] = typer.Option(None, "--models", "-m"),  # noqa: UP007
-    personhood: int = typer.Option(0, "--personhood", "-p", min=0, max=4),
-    ecological: float = typer.Option(0.7, "--ecological"),
-    equity: float = typer.Option(0.6, "--equity"),
-    export: Optional[Path] = typer.Option(None, "--export"),  # noqa: UP007
+    entropy: Annotated[
+        float,
+        typer.Option("--entropy", "-e", help="System entropy in [0, 1]."),
+    ],
+    models: Annotated[
+        list[str] | None,
+        typer.Option("--models", "-m"),
+    ] = None,
+    personhood: Annotated[int, typer.Option("--personhood", "-p", min=0, max=4)] = 0,
+    ecological: Annotated[float, typer.Option("--ecological")] = 0.7,
+    equity: Annotated[float, typer.Option("--equity")] = 0.6,
+    export: Annotated[
+        Path | None,
+        typer.Option("--export"),
+    ] = None,
 ) -> None:
     """Run a criticality check and display the full report."""
     engine = GemeinwohlEngine()
@@ -366,7 +374,7 @@ def kritikalitaet_check(
         Panel(
             f"Score: [bold]{score.value:.4f}[/bold]\n"
             f"Level: [{lc}]{report.level.name}[/{lc}]",
-            title="[bold]Kritikalitäts-Check[/bold]",
+            title="[bold]Kritikalitaets-Check[/bold]",
             expand=False,
         )
     )
@@ -379,7 +387,7 @@ def kritikalitaet_check(
     if report.recommendations:
         console.print("\n[bold]Recommendations:[/bold]")
         for rec in report.recommendations:
-            console.print(f"  • {rec}")
+            console.print(f"  * {rec}")
 
     if export:
         export.write_text(json.dumps(report.to_dict(), indent=2))
