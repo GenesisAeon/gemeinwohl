@@ -2,6 +2,8 @@
 
 **Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon**
 
+**DOI**: [10.5281/zenodo.19201980](https://doi.org/10.5281/zenodo.19201980) | **Zenodo**: [https://zenodo.org/records/19201980](https://zenodo.org/records/19201980)
+
 See the [README](https://github.com/GenesisAeon/gemeinwohl#readme) for installation and quick-start instructions.
 
 ## Navigation

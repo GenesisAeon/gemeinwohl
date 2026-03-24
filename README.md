@@ -2,11 +2,14 @@
 
 **Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon**
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19201980.svg)](https://doi.org/10.5281/zenodo.19201980)
 [![PyPI version](https://img.shields.io/pypi/v/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
 [![Python](https://img.shields.io/pypi/pyversions/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests](https://github.com/GenesisAeon/gemeinwohl/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/gemeinwohl/actions)
 [![Coverage](https://img.shields.io/badge/coverage-%3E99%25-brightgreen)](https://github.com/GenesisAeon/gemeinwohl/actions)
+
+**DOI**: 10.5281/zenodo.19201980 | **Zenodo Record**: https://zenodo.org/records/19201980
 
 ---
 
