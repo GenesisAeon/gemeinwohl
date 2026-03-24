@@ -158,8 +158,14 @@ mypy_path = "src"
 module = [
   "scipy.*",
   "numpy.*",
+  "rich.*",
+  "typer.*",
 ]
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["gemeinwohl.cli.main"]
+disallow_untyped_decorators = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
