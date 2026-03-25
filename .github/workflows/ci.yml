@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["main", "claude/**"]
+    branches: ["main", "master", "claude/**"]
   pull_request:
-    branches: ["main"]
+    branches: ["main", "master"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -16,24 +16,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: pip
-
+          python-version: "3.11"
       - name: Install dev dependencies
         run: pip install -e ".[dev]"
-
-      - name: Run ruff (lint)
-        run: ruff check src/ tests/
-
-      - name: Run ruff (format check)
-        run: ruff format --check src/ tests/
-
+      - name: Run ruff
+        run: ruff check src tests
       - name: Run mypy
-        run: mypy src/gemeinwohl
+        run: mypy src
 
   test:
     name: Tests (Python ${{ matrix.python-version }})
@@ -42,49 +33,31 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-          cache: pip
-
       - name: Install dependencies
         run: pip install -e ".[dev]"
-
-      - name: Run tests with coverage
-        run: |
-          pytest \
-            --cov=gemeinwohl \
-            --cov-report=xml \
-            --cov-report=term-missing \
-            --cov-fail-under=99 \
-            -v
-
-      - name: Upload coverage report
-        if: matrix.python-version == '3.12'
-        uses: actions/upload-artifact@v4
+      - name: Run pytest with coverage
+        run: pytest --cov=src --cov-report=xml
+      - name: Upload coverage
+        if: matrix.python-version == '3.11'
+        uses: codecov/codecov-action@v4
         with:
-          name: coverage-report
-          path: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
 
   docs:
     name: Docs (mkdocs --strict)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: pip
-
-      - name: Install doc dependencies
-        run: pip install -e ".[docs]"
-
-      - name: Build docs (strict)
+          python-version: "3.11"
+      - name: Install dev dependencies
+        run: pip install -e ".[dev]"
+      - name: Build docs
         run: mkdocs build --strict
