@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] – 2026-06-28
+
+### Changed
+
+- Relicensed: dual-licensed under **GPL-3.0-or-later** (source code) and **CC BY 4.0** (documentation), replacing the previous MIT license.
+- Bumped GenesisAeon ecosystem dependency pins in `[project.optional-dependencies].full-stack` to their released `>=1.0.0` floors (`unified-mandala`, `worldview`, `aeon-ai`, `genesis-os`, `universums-sim`, `entropy-governance`, `sigillin`).
+- Updated `.zenodo.json` license and version metadata to match.
+
 ## [0.1.0] – 2026-03-24
 
 ### Added

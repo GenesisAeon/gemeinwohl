@@ -1,9 +1,9 @@
 {
-  "title": "GenesisAeon/gemeinwohl: v0.1.0 – Normativer Governance-Layer mit Gemeinwohl-Metrik, Personhood-Levels & ethischen Leitplanken",
-  "version": "0.1.0",
+  "title": "GenesisAeon/gemeinwohl: v1.0.0 – Normativer Governance-Layer mit Gemeinwohl-Metrik, Personhood-Levels & ethischen Leitplanken",
+  "version": "1.0.0",
   "doi": "10.5281/zenodo.19201980",
   "description": "Normativer Gemeinwohl-Layer: GemeinwohlEngine mit normativer Metrik, Kritikalitäts-Checker und PolicyEngine (Personhood-Levels 0–6) für das GenesisAeon-Ökosystem.",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later AND CC-BY-4.0",
   "upload_type": "software",
   "access_right": "open",
   "creators": [

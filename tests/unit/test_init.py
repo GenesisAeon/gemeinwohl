@@ -5,13 +5,13 @@ import gemeinwohl
 
 class TestPackageInit:
     def test_version_string(self):
-        assert gemeinwohl.__version__ == "0.1.0"
+        assert gemeinwohl.__version__ == "1.0.0"
 
     def test_author(self):
         assert gemeinwohl.__author__ == "GenesisAeon"
 
     def test_license(self):
-        assert gemeinwohl.__license__ == "MIT"
+        assert gemeinwohl.__license__ == "GPL-3.0-or-later"
 
     def test_gemeinwohl_engine_exported(self):
         assert hasattr(gemeinwohl, "GemeinwohlEngine")
