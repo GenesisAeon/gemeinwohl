@@ -5,7 +5,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19201980.svg)](https://doi.org/10.5281/zenodo.19201980)
 [![PyPI version](https://img.shields.io/pypi/v/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
 [![Python](https://img.shields.io/pypi/pyversions/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPL v3 + CC BY 4.0](https://img.shields.io/badge/License-GPLv3%2BCC--BY--4.0-blue.svg)](https://github.com/GenesisAeon/gemeinwohl/blob/main/LICENSE)
 [![Tests](https://github.com/GenesisAeon/gemeinwohl/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/gemeinwohl/actions)
 [![Coverage](https://img.shields.io/badge/coverage-%3E99%25-brightgreen)](https://github.com/GenesisAeon/gemeinwohl/actions)
 
@@ -178,4 +178,9 @@ src/gemeinwohl/
 
 ## License
 
-MIT (c) GenesisAeon
+This repository is dual-licensed:
+
+- **Source code** — GNU General Public License v3.0 or later (GPL-3.0-or-later). See [LICENSE-CODE](LICENSE-CODE).
+- **Documentation** — Creative Commons Attribution 4.0 International (CC BY 4.0). See [LICENSE-DOCS](LICENSE-DOCS).
+
+(c) 2025-2026 GenesisAeon / Johann Römer
