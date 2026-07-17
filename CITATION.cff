@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "gemeinwohl"
+version: "1.0.0"
+date-released: "2026-03-26"
+authors:
+  - name: "GenesisAeon"
+    email: genesis@genesisaeon.org
+repository-code: "https://github.com/GenesisAeon/gemeinwohl"
+license: GPL-3.0-or-later
+abstract: "Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon"
+keywords:
+  - GenesisAeon
+  - UTAC
+  - CREP
+  - open-science
+  - common-good
+  - ethics
+  - governance
+  - normative-ai
