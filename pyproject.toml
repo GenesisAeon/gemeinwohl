@@ -80,7 +80,7 @@ Documentation = "https://genesisaeon.github.io/gemeinwohl"
 Repository = "https://github.com/GenesisAeon/gemeinwohl"
 "Bug Tracker" = "https://github.com/GenesisAeon/gemeinwohl/issues"
 Changelog = "https://github.com/GenesisAeon/gemeinwohl/blob/main/CHANGELOG.md"
-Zenodo = "https://doi.org/10.5281/zenodo.gemeinwohl"
+Zenodo = "https://doi.org/10.5281/zenodo.21013978"
 
 [project.scripts]
 gemeinwohl = "gemeinwohl.cli.main:app"

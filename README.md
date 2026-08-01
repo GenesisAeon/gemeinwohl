@@ -2,14 +2,14 @@
 
 **Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon**
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19201980.svg)](https://doi.org/10.5281/zenodo.19201980)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21013978.svg)](https://doi.org/10.5281/zenodo.21013978)
 [![PyPI version](https://img.shields.io/pypi/v/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
 [![Python](https://img.shields.io/pypi/pyversions/gemeinwohl.svg)](https://pypi.org/project/gemeinwohl/)
 [![License: GPL v3 + CC BY 4.0](https://img.shields.io/badge/License-GPLv3%2BCC--BY--4.0-blue.svg)](https://github.com/GenesisAeon/gemeinwohl/blob/main/LICENSE)
 [![Tests](https://github.com/GenesisAeon/gemeinwohl/actions/workflows/ci.yml/badge.svg)](https://github.com/GenesisAeon/gemeinwohl/actions)
 [![Coverage](https://img.shields.io/badge/coverage-%3E99%25-brightgreen)](https://github.com/GenesisAeon/gemeinwohl/actions)
 
-**DOI**: 10.5281/zenodo.19201980 | **Zenodo Record**: https://zenodo.org/records/19201980
+**DOI**: 10.5281/zenodo.21013978 | **Zenodo Record**: https://zenodo.org/records/21013978
 
 ---
 
@@ -172,7 +172,7 @@ src/gemeinwohl/
 - **Worldview / CREP**: `docs/CREPPhaseMatrix.yaml` and the `worldview` package
 - **GenesisChronik**: `docs/GenesisChronik.md`
 - **Docs**: [genesisaeon.github.io/gemeinwohl](https://genesisaeon.github.io/gemeinwohl)
-- **Zenodo**: [doi.org/10.5281/zenodo.gemeinwohl](https://doi.org/10.5281/zenodo.gemeinwohl)
+- **Zenodo**: [doi.org/10.5281/zenodo.21013978](https://doi.org/10.5281/zenodo.21013978)
 
 ---
 
