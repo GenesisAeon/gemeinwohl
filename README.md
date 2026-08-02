@@ -1,5 +1,7 @@
 # gemeinwohl
 
+**GenesisAeon Package P66**
+
 **Normative Common-Good Layer with Governance Metrics, Personhood Extension and Ethical Guardrails for GenesisAeon**
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21013978.svg)](https://doi.org/10.5281/zenodo.21013978)
